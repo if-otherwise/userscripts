@@ -15,7 +15,7 @@
     var stopAutoplay = setInterval(function () {
         attempt++;
         console.log('[Disable YouTube Autoplay]: Starting attempt [' + attempt + ']');
-        var autoplayButton = document.querySelector('paper-toggle-button');
+        var autoplayButton = document.querySelector('paper-toggle-button[aria-label="Autoplay"]');
         if (!!autoplayButton) {
             if (autoplayButton.checked && autoplayButton.active) {
                 autoplayButton.click();
