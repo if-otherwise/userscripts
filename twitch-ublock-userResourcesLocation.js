@@ -1,10 +1,20 @@
-if ( /(^|\.)twitch\.tv$/.test(document.location.hostname) === false ) { return; }
-var realFetch = window.fetch;
-window.fetch = function(input, init) {
-    if ( arguments.length >= 2 && typeof input === 'string' && input.includes('/access_token') ) {
-        var url = new URL(arguments[0]);
-        url.searchParams.set("player_type", "frontpage");
-        arguments[0] = url.href;
+const origFetch = window.fetch;
+window.fetch = (url, init, ...args) => {
+    if (typeof url === "string") {
+        if (url.includes("/access_token")) {
+            const newUrl = new URL(arguments[0]);
+            newUrl.searchParams.set("player_type", "dashboard");
+            url = url.href;
+        } else if (
+            url.includes("/gql") &&
+            init &&
+            typeof init.body === "string" &&
+            init.body.includes("PlaybackAccessToken")
+        ) {
+            const newBody = JSON.parse(init.body);
+            newBody.variables.playerType = "dashboard";
+            init.body = JSON.stringify(newBody);
+        }
     }
-    return realFetch.apply(this, arguments);
+    return origFetch(url, init, ...args);
 };
