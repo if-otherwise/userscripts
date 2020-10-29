@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Fuck Off Twitch Ads
 // @namespace   Violentmonkey Scripts
-// @match       https://*.twitch.tv/*
+// @match       https://www.twitch.tv/*
 // @grant       none
 // @version     1.0
 // @author      if-otherwise
