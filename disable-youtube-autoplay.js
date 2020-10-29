@@ -15,9 +15,10 @@
     var stopAutoplay = setInterval(function () {
         attempt++;
         console.log('[Disable YouTube Autoplay]: Starting attempt [' + attempt + ']');
-        if (document.querySelector('[aria-label="Autoplay"]') !== null) {
-            if (document.querySelector('paper-toggle-button').checked && document.querySelector('paper-toggle-button').active) {
-                document.querySelector('[aria-label="Autoplay"]').click();
+        var autoplayButton = document.querySelector('paper-toggle-button');
+        if (!!autoplayButton) {
+            if (autoplayButton.checked && autoplayButton.active) {
+                autoplayButton.click();
                 console.log('[Disable YouTube Autoplay]: Autoplay disabled!');
                 clearInterval(stopAutoplay);
             } else {
