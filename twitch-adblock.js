@@ -26,6 +26,7 @@
     var playButton = document.querySelector('.player-controls__left-control-group > div:nth-child(1) > button:nth-child(1)');
     playButton.click();
     playButton.click();
+    // twitch a bit fucky with how it loads elements. this is a super bandaid fix until I can do more testing
     setTimeout(() => {
         var adOverlay = document.querySelector('span[data-test-selector=ad-banner-default-text]');
         if (adOverlay !== null) {
