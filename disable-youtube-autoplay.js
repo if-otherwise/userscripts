@@ -33,7 +33,7 @@
                     console.log('[Disable YouTube Autoplay]: Autoplay button not present.');
                     clearInterval(stopAutoplay);
                 }
-            }, 10000);
+            }, 5000);
             stopAutoplay;
         }
     });
