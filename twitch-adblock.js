@@ -13,7 +13,7 @@
     console.log('############# Starting "Fuck Off Twitch Ads" #############');
     var video = document.querySelector('.video-player video');
     var playButton = document.querySelector('.player-controls__left-control-group > div:nth-child(1) > button:nth-child(1)');
-    var muteButton = document.querySelector('button[data-a-target="player-mute-unmute-button"]');
+    var muteButton = document.querySelector('button[data-a-target="player-mute-unmute-button"]') || document.querySelector('button[data-a-target="player-play-pause-button"]');
     var adOverlay = document.querySelector('span[data-test-selector=ad-banner-default-text]');
     playButton.click();
     setTimeout(() => {
