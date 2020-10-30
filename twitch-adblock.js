@@ -31,15 +31,15 @@
                 var isAdPlaying = setInterval(() => {
                     timePlayed++;
                     if (parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]) === 5) {
+                      var savedTime = 0;
+                      if (!!window.localStorage.getItem('adReplacementTime')) {
+                        savedTime = parseFloat(window.localStorage.getItem('adReplacementTime')) + timePlayed + 5;
+                        window.localStorage.setItem('adReplacementTime', savedTime);
+                      } else {
+                        window.localStorage.setItem('adReplacementTime', timePlayed + 5);
+                      }
                       setTimeout(() => {
                         console.log('############# Ad Complete #############');
-                        var savedTime = 0;
-                        if (!!window.localStorage.getItem('adReplacementTime')) {
-                          savedTime = parseFloat(window.localStorage.getItem('adReplacementTime')) + timePlayed;
-                          window.localStorage.setItem('adReplacementTime', savedTime);
-                        } else {
-                          window.localStorage.setItem('adReplacementTime', timePlayed);
-                        }
                         window.location.reload()
                       }, 5750)
                     }
@@ -58,15 +58,15 @@
                 var timePlayed = 0;
                 timePlayed++;
                 if (parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]) === 5) {
+                  var savedTime = 0;
+                  if (!!window.localStorage.getItem('adReplacementTime')) {
+                    savedTime = parseFloat(window.localStorage.getItem('adReplacementTime')) + timePlayed + 5;
+                    window.localStorage.setItem('adReplacementTime', savedTime);
+                  } else {
+                    window.localStorage.setItem('adReplacementTime', timePlayed + 5);
+                  }
                   setTimeout(() => {
                     console.log('############# Ad Complete #############');
-                    var savedTime = 0;
-                    if (!!window.localStorage.getItem('adReplacementTime')) {
-                      savedTime = parseFloat(window.localStorage.getItem('adReplacementTime')) + timePlayed;
-                      window.localStorage.setItem('adReplacementTime', savedTime);
-                    } else {
-                      window.localStorage.setItem('adReplacementTime', timePlayed);
-                    }
                     window.location.reload()
                   }, 5750)
                 }
@@ -76,4 +76,3 @@
         }
     }, 5000);
 })()
-
