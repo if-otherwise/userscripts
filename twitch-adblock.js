@@ -63,8 +63,10 @@
             playButton.click();
             var isAdPlaying = setInterval(() => {
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if (adCounter > video.duration) {
-                    selectVideo()
+                if ((Math.round(video.duration) - Math.round(video.duration)) < 2) {
+                    setTimeout(() => {
+                      selectVideo()
+                    },1900);
                 }
                 if (adCounter === 5) {
                   setTimeout(() => {
@@ -72,7 +74,7 @@
                     window.location.reload()
                   }, 5750)
                 }
-            }, 1000);
+            }, 100);
             isAdPlaying;
         } else {
           console.log('############# No Ad Present #############');
@@ -84,8 +86,10 @@
                 playButton.click();
                 muteButton.click();
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if (adCounter > video.duration) {
-                    selectVideo()
+                if ((Math.round(video.duration) - Math.round(video.duration)) < 2) {
+                    setTimeout(() => {
+                      selectVideo()
+                    },1900);
                 }
                 if (adCounter === 5) {
                   setTimeout(() => {
@@ -94,7 +98,7 @@
                   }, 5750)
                 }
               }
-          }, 1000);
+          }, 100);
           isMidrollPlaying;
         }
     }, 5000);
