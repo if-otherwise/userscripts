@@ -18,7 +18,7 @@
     playButton.click();
     setTimeout(() => {
         playButton.click();
-        if (!!adOverlay) {
+        if (adOverlay !== null) {
             console.log('############# Replacing Twitch Video #############');
             var userVideo = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mov-file.mov'; // <-- REPLACE WITH WHATEVER HOSTED VID FILE
             video.src = userVideo;
@@ -52,7 +52,7 @@
           muteButton.click();
           console.log('############# Starting Watcher For Midrolls #############');
           var isMidrollPlaying = setInterval(() => {
-              if (!!adOverlay) {
+              if (adOverlay !== null) {
                 playButton.click();
                 muteButton.click();
                 var timePlayed = 0;
