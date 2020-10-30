@@ -12,11 +12,12 @@
 (function() {
     console.log('############# Starting "Fuck Off Twitch Ads" #############');
     setTimeout(() => {
+      if (document.readyState === "complete" || document.readyState === "interactive") {
         var video = document.querySelector('.video-player video');
         var playButton = document.querySelector('button[data-a-target="player-play-pause-button"]');
         var muteButton = document.querySelector('button[data-a-target="player-mute-unmute-button"]');
         var adOverlay = document.querySelector('span[data-test-selector=ad-banner-default-text]');
-        playButton.click();
+        muteButton.click();
         var videoList = [
             'https://drive.google.com/uc?export=download&id=1XDzhzVbEkZShpvJ09xsC_H6geT4db9Nm',
             'https://drive.google.com/uc?export=download&id=1Q7dnHSeZvGma48WoSmtidY2BK1UL2Mcw',
@@ -61,45 +62,45 @@
             console.log('############# Replacing Twitch Video #############');
             selectVideo();
             playButton.click();
+            function videoFinished() {
+                setTimeout(() => {
+                  console.log('############# Ad Complete #############');
+                  window.location.reload()
+                }, 5750)
+            }
             var isAdPlaying = setInterval(() => {
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if ((Math.round(video.duration) - Math.round(video.duration)) < 2) {
-                    setTimeout(() => {
-                      selectVideo()
-                    },1900);
+                if ((Math.round(video.duration) - Math.round(video.duration)) <= 1) {
+                    selectVideo()
                 }
                 if (adCounter === 5) {
-                  setTimeout(() => {
-                    console.log('############# Ad Complete #############');
-                    window.location.reload()
-                  }, 5750)
+                  videoFinished()
                 }
-            }, 100);
+            }, 500);
             isAdPlaying;
         } else {
           console.log('############# No Ad Present #############');
-          playButton.click();
-          // muteButton.click();
+          muteButton.click();
           console.log('############# Starting Watcher For Midrolls #############');
+          function videoFinished() {
+              setTimeout(() => {
+                console.log('############# Ad Complete #############');
+                window.location.reload()
+              }, 5750)
+          }
           var isMidrollPlaying = setInterval(() => {
               if (adOverlay !== null) {
-                playButton.click();
-                muteButton.click();
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if ((Math.round(video.duration) - Math.round(video.duration)) < 2) {
-                    setTimeout(() => {
-                      selectVideo()
-                    },1900);
+                if ((Math.round(video.duration) - Math.round(video.duration)) <= 1) {
+                    selectVideo()
                 }
                 if (adCounter === 5) {
-                  setTimeout(() => {
-                    console.log('############# Ad Complete #############');
-                    window.location.reload()
-                  }, 5750)
+                    videoFinished()
                 }
               }
-          }, 100);
+          }, 500);
           isMidrollPlaying;
         }
-    }, 5000);
+      }
+    }, 3000)
 })()
