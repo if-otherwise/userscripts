@@ -57,11 +57,11 @@
             var selectedVideo = generateRandom(0, videoList.length);
             completedVideos.push(selectedVideo);
             video.src = videoList[selectedVideo];
+            playButton.click();
         }
         if (adOverlay !== null) {
             console.log('############# Replacing Twitch Video #############');
             selectVideo();
-            playButton.click();
             function videoFinished() {
                 setTimeout(() => {
                   console.log('############# Ad Complete #############');
@@ -70,7 +70,7 @@
             }
             var isAdPlaying = setInterval(() => {
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if ((Math.round(video.duration) - Math.round(video.duration)) <= 1) {
+                if ((Math.round(video.duration) - Math.round(video.currentTime)) <= 1) {
                     selectVideo()
                 }
                 if (adCounter === 5) {
@@ -91,7 +91,7 @@
           var isMidrollPlaying = setInterval(() => {
               if (adOverlay !== null) {
                 var adCounter = parseFloat(document.querySelector('div.tw-c-background-overlay:nth-child(4) > span:nth-child(1)').innerText.split(':')[1]);
-                if ((Math.round(video.duration) - Math.round(video.duration)) <= 1) {
+                if ((Math.round(video.duration) - Math.round(video.currentTime)) <= 1) {
                     selectVideo()
                 }
                 if (adCounter === 5) {
@@ -102,5 +102,5 @@
           isMidrollPlaying;
         }
       }
-    }, 3000)
+    }, 5000)
 })()
