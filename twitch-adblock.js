@@ -15,9 +15,7 @@
     var playButton = document.querySelector('button[data-a-target="player-play-pause-button"]');
     var muteButton = document.querySelector('button[data-a-target="player-mute-unmute-button"]');
     var adOverlay = document.querySelector('span[data-test-selector=ad-banner-default-text]');
-    playButton.click();
     setTimeout(() => {
-        playButton.click();
         if (adOverlay !== null) {
             console.log('############# Replacing Twitch Video #############');
             var userVideo = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mov-file.mov'; // <-- REPLACE WITH WHATEVER HOSTED VID FILE
