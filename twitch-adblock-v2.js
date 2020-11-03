@@ -1,17 +1,26 @@
 // ==UserScript==
-// @name        Fuck Off Twitch Ads v2
-// @namespace   Violentmonkey Scripts
-// @match       *://www.twitch.tv/*
-// @grant       none
-// @version     1.0
-// @author      ifotherwise
-// @description 11/2/2020, 12:14:34 AM
+// @name         Fuck Off Twitch Ads v2
+// @namespace    https://www.twitch.tv/
+// @version      2.0
+// @description  fuck ads nomesayin'
+// @author       ifotherwise
+// @match        https://www.twitch.tv/*
+// @grant        none
+// @homepageURL  none      
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    window.onload = function() {
+
+    const findVideoPlayer = function() {
+        const videoPlayer = document.querySelector('[data-a-target="video-player"]');
+        if (videoPlayer) {
+            attachMutationObserver(videoPlayer);
+        }
+    }
+  
+    const attachMutationObserver = function(videoPlayer) {
 
         const dblclick = new MouseEvent('dblclick', {
             bubbles: true,
@@ -24,26 +33,41 @@
             subtree: true
         };
 
-        const observer = new MutationObserver(function(mutations) {
+        const adObserver = new MutationObserver(function(mutations) {
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
-                    let ad = node.querySelector('[data-test-selector="ad-banner-default-text"]');
-                    if (ad) {
-                        let resetButton = document.querySelector('[data-a-target="ffz-player-reset-button"]');
-
-                        if (resetButton) {
-                            resetButton.dispatchEvent(dblclick);
-                        } else {
-                            window.location.reload();
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        let ad = node.querySelector('[data-test-selector="ad-banner-default-text"]');
+                        if (ad) {
+                            let resetButton = document.querySelector('[data-a-target="ffz-player-reset-button"]');
+                            let videoPlayerElement = document.querySelector('video');
+                            let currentVolume = videoPlayerElement.volume;
+                            if (resetButton) {
+                                resetButton.dispatchEvent(dblclick);
+                                setTimeout(() => {
+                                    videoPlayerElement.volume = currentVolume;
+                                }, 2000);
+                            } else {
+                                window.location.reload();
+                            }
                         }
                     }
                 });
             });
         });
 
-        const target = document.querySelector('[data-a-target="video-player"]');
+        adObserver.observe(videoPlayer, options);
+    }
 
-        observer.observe(target, options);
+    window.onload = function() {
+
+        findVideoPlayer();
+
+        var pushState = history.pushState;
+        history.pushState = function () {
+            pushState.apply(history, arguments);
+            findVideoPlayer();
+        };
     }
 
 })();
