@@ -67,8 +67,11 @@
               els[0].remove();
             }
           });
-        } else if (thotsRetrieved) {
-          alert('ThotBlock list is empty! Update the thot array at the top of the document or make sure your remote list is accessible.')
+        } else if ((thotsRetrieved && !thots) || (thotsRetrieved && !thots.length)) {
+          let userResonse = confirm("ThotBlock list is empty!\nThere may have been an error, or the remote list is inaccessible.\nSelect OK to refresh and try again.");
+          if (userResonse == true) {
+            window.location.reload()
+          }
         }
       }
     }
