@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name        ThotBlock
 // @namespace   Violentmonkey Scripts
-// @match       https://www.twitch.tv/directory/game/*
-// @grant       none
-// @version     1.0
+// @match       https://www.twitch.tv/*
+// @grant       GM_xmlhttpRequest
+// @connect     https://gist.githubusercontent.com
+// @version     1.1
 // @author      if-otherwise
 // @run-at      document-idle
 // @description Annoyed of seeing softcore porn thumbnails of girls making a living on simp money when you're just looking to find an interesting stream? 
@@ -11,179 +12,64 @@
 // ==/UserScript==
 
 (function() {
-  setTimeout(() => {
-
     console.log('Initiating ThotBlock!');
 
-    var thots = [
-      'Alinity',
-      'JustaMinx',
-      'melina',
-      'InvaderVie',
-      'STPeach',
-      'Blinkx_',
-      'BadGalShay',
-      'cynthiajoon',
-      'ExoHydraX',
-      'Amouranth',
-      'TaliaMar',
-      'MizzyRose',
-      'Jennalore',
-      'xoAeriel',
-      'Kate',
-      'BadBunny',
-      'LivStixs',
-      'GirlGamerShay',
-      'Cahlaflour',
-      'codemiko',
-      'shulyyyyyy',
-      'evaanna',
-      'bonnierabbit',
-      'CinCinBear',
-      'FAUXRE',
-      'Beddle',
-      'JuliaBayonetta_',
-      'Krissi',
-      'SeriousGaming',
-      'Lizelda',
-      'iaaras2',
-      'Denims',
-      'Meowko',
-      'SarayaOfficial',
-      'Ajvie',
-      'avivasofia',
-      'Neytiri',
-      'Scxrlet64',
-      'MSFIIIRE',
-      'PaladinAmber',
-      'baibaigirl',
-      'awKie',
-      'XPKitten',
-      'ElfHerSelf',
-      'Aribeee',
-      'SoniAmats',
-      'Swaggybark',
-      'marinavalmont',
-      'sarashionette',
-      'MsGrimoire',
-      'CrazyLuthien',
-      'AlisaKissa69',
-      'ElChiringuitoJugHD',
-      'DOIIIUK',
-      'Hollytwolf',
-      'CarliTalbott',
-      'NoeliaaYT',
-      'kittycatnat1',
-      'feliciasanders',
-      'LadyPolytv',
-      'kaceytron',
-      'HANAWINS',
-      'klaudiacroft',
-      'Gayasai',
-      'AbiCocca',
-      'RitaGraves',
-      'Tixaxxx',
-      'JuditBenavente',
-      '_휴미 (huemi_)',
-      '김예하 (yeha23)',
-      '임나은 (ao_o5)',
-      '여름이0908 (qufakwdywjd)',
-      'AmyeC3',
-      'CRAY',
-      'bebepeachx',
-      'Pokimane',
-      'Jaycgee',
-      'Pink_Sparkles',
-      'Kandyland',
-      'KittyPlaysGames',
-      'Loeya',
-      'Loserfruit',
-      'LegendaryLea',
-      'DizzyKitten',
-      'Xchocobars',
-      'DingleDerper',
-      'ChicaLive',
-      'Miss_Rage',
-      'Djarii',
-      'Ms_Vixen',
-      'AlexiaRaye',
-      'xMinks',
-      'KatGunn',
-      'KneeColeslaw',
-      '2MGoverCSquared',
-      'OMGitsfirefoxx',
-      'DeerNadia',
-      'TaraBabcock',
-      'Lilchiipmunk',
-      'Schyax',
-      'Djarii',
-      'Emiru',
-      'ClaraBabyLegs',
-      'CinCinBear',
-      'Mhova',
-      'Morberplz',
-      'KayPeaLol',
-      'ChloeLock',
-      'lilfuncakez',
-      'Momo',
-      'kaiimae',
-      'iGUMDROP',
-      'Livilu4',
-      'reidalivess',
-      'Pokket',
-      'Intraventus',
-      '소다코의34번째아이디 (sodako34)',
-      'Raelilblack',
-      'Kaellyn',
-      'enotishka18',
-      'Alisha12287',
-      'IvySky',
-      'pixelsmixel',
-      'babyhsu888',
-      'MissMikkaa',
-      'ppim',
-      '빛베리 (berry0314)',
-      'Kittspresso',
-      'Michi',
-      'KIKI',
-      '마젠타_ (magenta62)',
-      'miafitz',
-      'FazendaTV3',
-      '진자림 (jinjalim)',
-      'tati',
-      'TamoligadoTV',
-      'Rousena',
-      '끠끼 (kuiki771)',
-      'Pruckute',
-      'timjacken',
-      '마이부 (myboo_cosplay)',
-      'amstergwen020',
-      'Audio__RW',
-      '정병소녀 (ghghgigi)',
-      'mickanplays',
-      'anaclara_35',
-      'Ferbr',
-      'GirlGamerChas',
-      'Yabbe'
-    ];
+    let thots = [];
+    
+    // Remote JSON of thot list. Replace this with your own array, link to array, or keep this one which will be updated periodically
+    let thotListJson = 'https://gist.githubusercontent.com/if-otherwise/41ba8833138245cab13e2bc19f833b0d/raw/blocklist.json';
 
+    // This is specific to violentmonkey (https://violentmonkey.github.io). 
+    // Tamper/grease have a bit different formatting and will not work.
+    GM_xmlhttpRequest({
+      method:         'GET',
+      url:            thotListJson,
+      responseType:   'json',
+      onload:         setThotList,
+      onerror:        reportError,
+      ontimeout:      reportError,
+      onabort:        reportError
+    });
+
+    let thotsRetrieved = false;
+    function setThotList(data) {
+      try {
+        thots = data.response;
+        thotsRetrieved = true;
+        console.log('Successfully retrieved Thot List from Github!');
+      }
+      catch(e) {
+        console.error('ThotBlock Error: ' + e.message)
+      }
+    }
+
+    function reportError(data) {
+      alert('Error retrieving thot list! The github gist may be inaccessible or the request timed out (usually because your internet is bad).')
+    }
+    
     function deleteThots () {
-      var allNodes = document.querySelectorAll('a[data-a-target="preview-card-channel-link"]');
-      if (allNodes.length && thots.length) {
-        allNodes.forEach((node) => {
-          if (thots.includes(node.innerText) || thots.includes(node.innerText.toLowerCase())) {
-            thots = thots.filter(e => e !== node.innerText);
-            console.log('Removing Thot: ' + node.innerText);
-            var count = 0;
-            var els = [];
-            while (count < 12) {
-              els.unshift(node);
-              node = node.parentNode;
-              count++
+      // changing to a location.href if statement to account for the way the site loads
+      // this is instead of the UserScript @match for /directory/game/
+      if (!!location.href.includes("/directory/game/")) {
+        let allNodes = document.querySelectorAll('a[data-a-target="preview-card-channel-link"]');
+        if (allNodes.length && thots.length) {
+          allNodes.forEach((node) => {
+            if (thots.includes(node.innerText) || thots.includes(node.innerText.toLowerCase())) {
+              thots = thots.filter(e => e !== node.innerText);
+              console.log('Removing Thot: ' + node.innerText);
+              let count = 0;
+              let els = [];
+              while (count < 12) {
+                els.unshift(node);
+                node = node.parentNode;
+                count++
+              }
+              els[0].remove();
             }
-            els[0].remove();
-          }
-        });
+          });
+        } else if (thotsRetrieved) {
+          alert('ThotBlock list is empty! Update the thot array at the top of the document or make sure your remote list is accessible.')
+        }
       }
     }
 
@@ -191,7 +77,6 @@
 
     setInterval(() => {
       deleteThots();
-    }, 3000)
-
-  }, 2000);
+    }, 2000)
+  
 })();
