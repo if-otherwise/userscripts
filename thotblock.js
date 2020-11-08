@@ -3,24 +3,27 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.twitch.tv/*
 // @grant       GM_xmlhttpRequest
-// @connect     https://gist.githubusercontent.com
+// @connect     gist.githubusercontent.com
 // @version     1.1
 // @author      if-otherwise
 // @run-at      document-idle
-// @description Annoyed of seeing softcore porn thumbnails of girls making a living on simp money when you're just looking to find an interesting stream? 
+// @description Annoyed of seeing softcore porn thumbnails of girls making a living on simp money 
+//              when you're just looking to find an interesting stream? 
 //              Have no fear, ThotBlock is here!
 // ==/UserScript==
 
-(function() {
+(function() { 
+  
     console.log('Initiating ThotBlock!');
 
     let thots = [];
     
-    // Remote JSON of thot list. Replace this with your own array, link to array, or keep this one which will be updated periodically
-    let thotListJson = 'https://gist.githubusercontent.com/if-otherwise/41ba8833138245cab13e2bc19f833b0d/raw/blocklist.json';
+    // Remote JSON of thot list. This list will be updated periodically and currently has over 270 profiles.
+    // You can replace this with your own remote list or an array right here.
+    let thotListJson = 'https://gist.githubusercontent.com/if-otherwise/41ba8833138245cab13e2bc19f833b0d/raw/blocklist.json?cacheprevent='+(new Date).getTime();
 
     // This is specific to violentmonkey (https://violentmonkey.github.io). 
-    // Tamper/grease have a bit different formatting and will not work.
+    // Will also work for tampermonkey
     GM_xmlhttpRequest({
       method:         'GET',
       url:            thotListJson,
@@ -30,13 +33,24 @@
       ontimeout:      reportError,
       onabort:        reportError
     });
+  
+    // Uncomment for use with greasemonkey, and comment out the above GM_xmlhttpRequest function
+    //GM.xmlHttpRequest({
+    //  method:         'GET',
+    //  url:            thotListJson,
+    //  responseType:   'json',
+    //  onload:         setThotList,
+    //  onerror:        reportError,
+    //  ontimeout:      reportError,
+    //  onabort:        reportError
+    //});
 
     let thotsRetrieved = false;
     function setThotList(data) {
       try {
         thots = data.response;
         thotsRetrieved = true;
-        console.log('Successfully retrieved Thot List from Github!');
+        console.log('Successfully retrieved Thot List from Github!');        
       }
       catch(e) {
         console.error('ThotBlock Error: ' + e.message)
@@ -80,6 +94,5 @@
 
     setInterval(() => {
       deleteThots();
-    }, 2000)
-  
+    }, 2500)
 })();
