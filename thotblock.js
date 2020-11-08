@@ -34,17 +34,20 @@
       onabort:        reportError
     });
   
-    // Uncomment for use with greasemonkey, and comment out the above GM_xmlhttpRequest function
-    //GM.xmlHttpRequest({
-    //  method:         'GET',
-    //  url:            thotListJson,
-    //  responseType:   'json',
-    //  onload:         setThotList,
-    //  onerror:        reportError,
-    //  ontimeout:      reportError,
-    //  onabort:        reportError
-    //});
-
+    // Uncomment the below function for use with greasemonkey, and comment out the above GM_xmlhttpRequest function
+    // You'll also need to change @grant to GM.xmlHttpRequest
+    /*
+    GM.xmlHttpRequest({
+      method:         'GET',
+      url:            thotListJson,
+      responseType:   'json',
+      onload:         setThotList,
+      onerror:        reportError,
+      ontimeout:      reportError,
+      onabort:        reportError
+    });
+    */
+    
     let thotsRetrieved = false;
     function setThotList(data) {
       try {
