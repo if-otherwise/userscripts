@@ -4,6 +4,8 @@
 // @match       https://www.twitch.tv/*
 // @grant       GM_xmlhttpRequest
 // @connect     gist.githubusercontent.com
+// @updateURL   https://raw.githubusercontent.com/if-otherwise/violentmonkey-scripts/main/thotblock.js
+// @downloadURL https://raw.githubusercontent.com/if-otherwise/violentmonkey-scripts/main/thotblock.js
 // @version     1.1
 // @author      if-otherwise
 // @run-at      document-idle
