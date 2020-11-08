@@ -61,7 +61,7 @@
     }
 
     function reportError(data) {
-      alert('Error retrieving thot list! The github gist may be inaccessible or the request timed out (usually because your internet is bad).')
+      alert('Error retrieving Thot List! The github gist may be inaccessible or the request timed out (usually because your internet is bad).')
     }
     
     function deleteThots () {
@@ -85,7 +85,7 @@
             }
           });
         } else if ((thotsRetrieved && !thots) || (thotsRetrieved && !thots.length)) {
-          let userResonse = confirm("ThotBlock list is empty!\nThere may have been an error, or the remote list is inaccessible.\nSelect OK to refresh and try again.");
+          let userResonse = confirm("Thot List is empty!\nThere may have been an error, or the remote list is inaccessible.\nSelect OK to refresh and try again.");
           if (userResonse == true) {
             window.location.reload()
           }
