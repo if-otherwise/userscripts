@@ -25,7 +25,7 @@
     let thotListJson = 'https://gist.githubusercontent.com/if-otherwise/41ba8833138245cab13e2bc19f833b0d/raw/blocklist.json?cacheprevent='+(new Date).getTime();
 
     // This is specific to violentmonkey (https://violentmonkey.github.io). 
-    // Tamper/grease have a bit different formatting and will not work.
+    // Will also work for tampermonkey
     GM_xmlhttpRequest({
       method:         'GET',
       url:            thotListJson,
@@ -35,6 +35,20 @@
       ontimeout:      reportError,
       onabort:        reportError
     });
+    
+    // Uncomment the below function for use with greasemonkey, and comment out the above GM_xmlhttpRequest function
+    // You'll also need to change @grant to GM.xmlHttpRequest
+    /*
+    GM.xmlHttpRequest({
+      method:         'GET',
+      url:            thotListJson,
+      responseType:   'json',
+      onload:         setThotList,
+      onerror:        reportError,
+      ontimeout:      reportError,
+      onabort:        reportError
+    });
+    */
 
     let thotsRetrieved = false;
     function setThotList(data) {
