@@ -6,7 +6,7 @@
 // @connect     gist.githubusercontent.com
 // @updateURL   https://raw.githubusercontent.com/if-otherwise/violentmonkey-scripts/main/thotblock.js
 // @downloadURL https://raw.githubusercontent.com/if-otherwise/violentmonkey-scripts/main/thotblock.js
-// @version     1.12
+// @version     1.121
 // @author      if-otherwise
 // @run-at      document-idle
 // @description Annoyed of seeing softcore porn thumbnails of girls making a living on simp money
@@ -84,9 +84,11 @@
                 console.info('Removing Thot: ' + node.innerText);
                 let count = 0;
                 let els = [];
-                let nodeLevelNumber;
+                let nodeLevelNumber = 12;
                 // There seems to be browser-specific updates to the UI that changes the parent node number.
                 // I'll keep a lookout for this to be universal, but currently only firefox
+                // Update: now it's gone? maybe it was a UI a/b test I ran into. I'll keep an eye out but leave the function commented out
+                /*
                 let browser = (function () {
                     var ua= navigator.userAgent, tem,
                     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -107,6 +109,7 @@
                 } else {
                   nodeLevelNumber = 12
                 }
+                */
                 while (count < nodeLevelNumber) {
                   els.unshift(node);
                   node = node.parentNode;
