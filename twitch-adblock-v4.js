@@ -13,7 +13,9 @@
 (function() {
   
     // TL;DR - This replaces the twitch player with an embedded variation, which doesn't get pre or mid-roll ads 
-    // Will work so long as: 1) twitch doesn't require ads for embedded content, 2) embeddly continues supporting this use of their cdn
+    // Will work so long as: 1) twitch doesn't require ads for embedded content, 2) embedly continues supporting this use of their cdn
+  
+    // Theater mode doesn't work for this, so press "f" to go full screen while on a stream
   
   
     if (window.location.origin == "https://cdn.embedly.com") {
